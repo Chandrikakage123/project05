@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin Dashboard - Pneumonia Detection</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #1d2b64, #f8cdda);
+        }
+
+        .header {
+            background: #111;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h2 {
+            margin: 0;
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            padding: 8px 18px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .logout-btn:hover {
+            background: linear-gradient(45deg, #ff4b2b, #ff416c);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .container {
+            padding: 40px;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.2);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #1d2b64;
+            color: white;
+            padding: 12px;
+        }
+
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        tr:nth-child(even) {
+            background: #f2f2f2;
+        }
+
+        tr:hover {
+            background: #e6f0ff;
+        }
+
+        .delete-btn {
+            background: #ff4d4d;
+            color: white;
+            padding: 6px 10px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .delete-btn:hover {
+            background: #cc0000;
+        }
+
+        .title {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h2>🩺 Admin Dashboard</h2>
+        <a href="{{ url_for('logout') }}" class="logout-btn">Logout</a>
+    </div>
+
+    <div class="container">
+        <div class="card">
+
+            <h2 class="title">Patient Records</h2>
+
+            <table>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Age</th>
+                    <th>Gender</th>
+                    <th>Prediction</th>
+                    <th>Confidence</th>
+                    <th>Action</th>
+                </tr>
+
+                {% for record in records %}
+                <tr>
+                    <td>{{ record['id'] }}</td>
+                    <td>{{ record['name'] }}</td>
+                    <td>{{ record['age'] }}</td>
+                    <td>{{ record['gender'] }}</td>
+                    <td>
+                        {% if record['prediction'] == "PNEUMONIA" %}
+                            <span style="color:red; font-weight:bold;">
+                                {{ record['prediction'] }}
+                            </span>
+                        {% else %}
+                            <span style="color:green; font-weight:bold;">
+                                {{ record['prediction'] }}
+                            </span>
+                        {% endif %}
+                    </td>
+                    <td>{{ record['confidence']|default(0)|round(2) }}%</td>
+                    <td>
+                        <a href="{{ url_for('delete_patient', id=record['id']) }}"
+                           onclick="return confirm('Are you sure you want to delete?')">
+                           Delete
+                        </a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </table>
+
+        </div>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Prediction Result</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            text-align: center;
+            color: white;
+        }
+
+        .container {
+            background: white;
+            width: 500px;
+            margin: 80px auto;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0px 10px 30px rgba(0,0,0,0.3);
+            color: #333;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        .status {
+            font-size: 22px;
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 10px;
+            display: inline-block;
+        }
+
+        .normal {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .pneumonia {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .confidence {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        img {
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: #667eea;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            background: #5a67d8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Prediction Result</h1>
+
+        {% if status == "NORMAL" %}
+            <div class="status normal">Status: {{ status }}</div>
+        {% else %}
+            <div class="status pneumonia">Status: {{ status }}</div>
+        {% endif %}
+
+        <div class="confidence">
+            Confidence: <strong>{{ confidence | round(2) }}%</strong>
+        </div>
+
+        <h3>Uploaded X-Ray:</h3>
+        <img src="{{ url_for('static', filename='uploads/' + image) }}" width="350">
+
+        <br>
+        <a href="{{ url_for('access') }}" class="btn">
+            Back to Dashboard
+        </a>
+    </div>
+
+</body>
+</html>
