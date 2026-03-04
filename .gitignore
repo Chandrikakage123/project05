@@ -3,4 +3,3 @@ __pycache__/
 *.pyc
 database.db
 static/uploads/
-pneumonia_model.h5
