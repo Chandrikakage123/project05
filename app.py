@@ -1,4 +1,6 @@
 import os
+os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1"
 import sqlite3
 import numpy as np
 from flask import Flask, render_template, request, redirect, url_for, session
@@ -6,6 +8,7 @@ from werkzeug.utils import secure_filename
 
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
+import tensorflow as tf
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -64,10 +67,11 @@ def init_db():
 init_db()
 
 # ---------------- LOAD MODEL ----------------
-model = load_model(os.path.join(BASE_DIR, "pneumonia_model.h5"))
+model_path = os.path.join(BASE_DIR, "pneumonia_model.h5")
+model = tf.keras.models.load_model(model_path, compile=False)
 
 def predict_image(img_path):
-    img = image.load_img(img_path, target_size=(150,150))
+    img = image.load_img(img_path, target_size=(128,128))
     img_array = image.img_to_array(img)/255.0
     img_array = np.expand_dims(img_array, axis=0)
 
@@ -145,6 +149,7 @@ def upload():
         filename = secure_filename(file.filename)
         filepath = os.path.join(app.config["UPLOAD_FOLDER"], filename)
         file.save(filepath)
+        
 
         status, confidence = predict_image(filepath)
 
