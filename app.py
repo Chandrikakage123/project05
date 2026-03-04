@@ -13,10 +13,10 @@ import tensorflow as tf
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
 
-BASE_DIR = os.path.dirname(__file__)
-DATABASE = os.path.join(BASE_DIR, "database.db")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATABASE = os.path.join("/tmp", "database.db")
 
-UPLOAD_FOLDER = os.path.join(BASE_DIR, "static/uploads")
+UPLOAD_FOLDER = os.path.join("/tmp", "uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -71,7 +71,7 @@ model_path = os.path.join(BASE_DIR, "pneumonia_model.h5")
 model = tf.keras.models.load_model(model_path, compile=False)
 
 def predict_image(img_path):
-    img = image.load_img(img_path, target_size=(128,128))
+    img = image.load_img(img_path, target_size=(150,150))
     img_array = image.img_to_array(img)/255.0
     img_array = np.expand_dims(img_array, axis=0)
 
