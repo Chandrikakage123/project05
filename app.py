@@ -13,7 +13,7 @@ app.secret_key = "supersecretkey"
 BASE_DIR = os.path.dirname(__file__)
 DATABASE = os.path.join(BASE_DIR, "database.db")
 
-UPLOAD_FOLDER = "static/uploads"
+UPLOAD_FOLDER = os.path.join(BASE_DIR, "static/uploads")
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 if not os.path.exists(UPLOAD_FOLDER):
@@ -170,4 +170,4 @@ def logout():
     return redirect(url_for("access"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
