@@ -87,7 +87,7 @@
         </div>
 
         <h3>Uploaded X-Ray:</h3>
-        <img src="{{ url_for('static', filename='uploads/' + image) }}" width="350">
+        <img src="/uploads/{{ image }}">
 
         <br>
         <a href="{{ url_for('access') }}" class="btn">
