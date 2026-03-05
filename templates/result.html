@@ -13,7 +13,7 @@
 
         .container {
             background: white;
-            width: 500px;
+            width: 700px;
             margin: 80px auto;
             padding: 30px;
             border-radius: 20px;
@@ -49,9 +49,12 @@
         }
 
         img {
-            margin-top: 20px;
-            border-radius: 15px;
-            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+             margin-top: 20px;
+             border-radius: 15px;
+             box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+             width: 100%;
+             max-height: 350px;
+             object-fit: contain;
         }
 
         .btn {
@@ -87,7 +90,7 @@
         </div>
 
         <h3>Uploaded X-Ray:</h3>
-        <img src="/uploads/{{ image }}">
+        <img src="{{ url_for('uploaded_file', filename=image) }}">
 
         <br>
         <a href="{{ url_for('access') }}" class="btn">
