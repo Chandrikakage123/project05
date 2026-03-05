@@ -5,7 +5,7 @@ import sqlite3
 import numpy as np
 from flask import Flask, render_template, request, redirect, url_for, session
 from werkzeug.utils import secure_filename
-
+from flask import send_from_directory
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import tensorflow as tf
@@ -169,6 +169,10 @@ def upload():
                                image=filename)
 
     return render_template("upload.html")
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return send_from_directory(app.config["UPLOAD_FOLDER"], filename)
 
 # ---------------- LOGOUT ----------------
 @app.route("/logout")
