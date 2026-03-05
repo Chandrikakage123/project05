@@ -70,13 +70,10 @@ init_db()
 model_path = os.path.join(BASE_DIR, "pneumonia_model.h5")
 model = tf.keras.models.load_model(model_path, compile=False)
 
+
 def predict_image(img_path):
 
-    # get model expected input size
-    input_shape = model.input_shape
-    img_size = input_shape[1]
-
-    img = image.load_img(img_path, target_size=(img_size, img_size))
+    img = image.load_img(img_path, target_size=(150,150))
     img_array = image.img_to_array(img)
     img_array = img_array / 255.0
     img_array = np.expand_dims(img_array, axis=0)
@@ -87,7 +84,6 @@ def predict_image(img_path):
         return "PNEUMONIA", float(pred * 100)
     else:
         return "NORMAL", float((1 - pred) * 100)
-
 # ---------------- ACCESS PAGE ----------------
 @app.route("/")
 def access():
